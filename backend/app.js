@@ -18,7 +18,7 @@ app.use("/api/coaches/skill", require("./routes/skillRoute"));
 app.use("/api/credit-package", require("./routes/creditPackageRoute"));
 
 // M2
-app.use("/api/users/signup", require("./routes/userRoute"));
+app.use("/api/users", require("./routes/userRoute"));
 
 // 404 路由
 app.use((req, res) => {
