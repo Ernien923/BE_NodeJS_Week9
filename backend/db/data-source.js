@@ -6,6 +6,7 @@ const User = require("../entities/User");
 const Coach = require("../entities/Coach");
 const Skill = require("../entities/Skill");
 const CreditPackage = require("../entities/CreditPackage");
+const CoachLinkSkill = require("../entities/CoachLinkSkill");
 
 const dataSource = new DataSource({
   type: "postgres",
@@ -16,7 +17,7 @@ const dataSource = new DataSource({
   database: config.getConfig("db.database"),
   synchronize: config.getConfig("db.synchronize"),
   ssl: config.getConfig("db.ssl"),
-  entities: [User, Coach, Skill, CreditPackage],
+  entities: [User, Coach, Skill, CreditPackage, CoachLinkSkill],
 });
 
 module.exports = { dataSource };

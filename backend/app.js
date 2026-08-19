@@ -20,6 +20,10 @@ app.use("/api/credit-package", require("./routes/creditPackageRoute"));
 // M2
 app.use("/api/users", require("./routes/userRoute"));
 
+// M3
+app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
+app.use("/api/admin/coaches/courses", require("./routes/adminCourseRoute"));
+
 // 404 路由
 app.use((req, res) => {
   res.status(404).json({ status: "failed", message: "無此路由" });
