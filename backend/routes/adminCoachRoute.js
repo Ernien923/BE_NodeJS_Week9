@@ -5,6 +5,6 @@ const isCoach = require("../middlewares/isCoach");
 
 router.post("/:userId", adminCoachController.setCoach);
 router.get("/", isAuth, isCoach, adminCoachController.getCoach);
-// router.put("/", isAuth, isCoach, adminCoachController.updateCoach);
+router.put("/", isAuth, isCoach, adminCoachController.updateCoach);
 
 module.exports = router;

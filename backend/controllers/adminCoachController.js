@@ -70,7 +70,6 @@ const adminCoachController = {
 
   // 查看教練資料
   getCoach: async (req, res, next) => {
-    // console.log("req.user =", req.user);
     const coachRepo = dataSource.getRepository("Coach");
     const coachLinkSkillRepo = dataSource.getRepository("CoachLinkSkill");
 
@@ -115,7 +114,7 @@ const adminCoachController = {
     const coachLinkSkillRepo = dataSource.getRepository("CoachLinkSkill");
 
     const coach = await coachRepo.findOne({
-      where: { user: { id: req.user.id } },
+      where: { user_id: req.user.id },
     });
     if (!coach) {
       return next(appErr(401, "使用者尚未成為教練"));
@@ -130,7 +129,21 @@ const adminCoachController = {
       },
     );
 
-    await coachLinkSkillRepo.delete({ id: coach.id });
+    await coachLinkSkillRepo.delete({ coach_id: coach.id });
+    for (const skill_id of skill_ids) {
+      await coachLinkSkillRepo.save({ coach_id: coach.id, skill_id });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        id: coach.id,
+        experience_years,
+        description: description.trim(),
+        profile_image_url,
+        skill_ids,
+      },
+    });
   },
 };
 

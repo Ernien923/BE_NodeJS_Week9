@@ -5,6 +5,7 @@ module.exports = new EntitySchema({
   tableName: "coaches",
   columns: {
     id: { type: "uuid", primary: true, generated: "uuid" },
+    user_id: { type: "uuid", nullable: false, unique: true },
     experience: { type: "integer", nullable: false, default: 0 },
     description: { type: "text", nullable: true },
     profile_image_url: { type: "varchar", length: 500, nullable: true },

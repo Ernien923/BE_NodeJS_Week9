@@ -5,6 +5,8 @@ module.exports = new EntitySchema({
   tableName: "coach_link_skill",
   columns: {
     id: { type: "uuid", primary: true, generated: "uuid" },
+    coach_id: { type: "uuid", nullable: false },
+    skill_id: { type: "uuid", nullable: false },
   },
   relations: {
     coach: {

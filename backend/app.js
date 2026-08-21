@@ -21,8 +21,8 @@ app.use("/api/credit-package", require("./routes/creditPackageRoute"));
 app.use("/api/users", require("./routes/userRoute"));
 
 // M3
-app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
 app.use("/api/admin/coaches/courses", require("./routes/adminCourseRoute"));
+app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
 
 // 404 路由
 app.use((req, res) => {

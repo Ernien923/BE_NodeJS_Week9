@@ -5,8 +5,11 @@ const config = require("../config/getConfig");
 const User = require("../entities/User");
 const Coach = require("../entities/Coach");
 const Skill = require("../entities/Skill");
+const Course = require("../entities/Course");
 const CreditPackage = require("../entities/CreditPackage");
 const CoachLinkSkill = require("../entities/CoachLinkSkill");
+const CourseBooking = require("../entities/CourseBooking");
+const CreditPurchase = require("../entities/CreditPurchase");
 
 const dataSource = new DataSource({
   type: "postgres",
@@ -17,7 +20,16 @@ const dataSource = new DataSource({
   database: config.getConfig("db.database"),
   synchronize: config.getConfig("db.synchronize"),
   ssl: config.getConfig("db.ssl"),
-  entities: [User, Coach, Skill, CreditPackage, CoachLinkSkill],
+  entities: [
+    User,
+    Coach,
+    Skill,
+    Course,
+    CreditPackage,
+    CoachLinkSkill,
+    CourseBooking,
+    CreditPurchase,
+  ],
 });
 
 module.exports = { dataSource };
