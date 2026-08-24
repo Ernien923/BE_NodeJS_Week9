@@ -24,6 +24,10 @@ app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/admin/coaches/courses", require("./routes/adminCourseRoute"));
 app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
 
+// M4
+app.use("/api/coaches", require("./routes/coacheRoute"));
+app.use("/api/courses", require("./routes/courseRoute"));
+
 // 404 路由
 app.use((req, res) => {
   res.status(404).json({ status: "failed", message: "無此路由" });
