@@ -143,7 +143,7 @@ const userController = {
   updatePassword: async (req, res, next) => {
     const { password, new_password, confirm_new_password } = req.body;
 
-    // 檢查自料是否為空值
+    // 檢查資料是否為空值
     if (
       !isStringValid(password) ||
       !isStringValid(new_password) ||
@@ -196,6 +196,79 @@ const userController = {
     } catch (error) {}
 
     res.status(200).json({ status: "success", data: null });
+  },
+
+  // 6. 取得購買紀錄
+  getPurchases: async (req, res, next) => {
+    const { id } = req.user;
+    const creditPurchaseRepo = dataSource.getRepository("CreditPurchase");
+    const purchaseData = [];
+
+    const purchase = await creditPurchaseRepo.find({
+      where: { user_id: id },
+      select: {
+        creditPackage: { name: true },
+        purchased_credits: true,
+        price_paid: true,
+        purchase_at: true,
+      },
+      order: { purchase_at: "DESC" },
+      relations: { creditPackage: true },
+    });
+
+    for (const p of purchase) {
+      purchaseData.push({
+        name: p.creditPackage.name,
+        purchased_credits: p.purchased_credits,
+        price_paid: p.price_paid,
+        purchase_at: p.purchase_at,
+      });
+    }
+
+    res.status(200).json({ status: "success", data: purchaseData });
+  },
+
+  // 7. 取得個人課表及剩餘堂數
+  getCourses: async (req, res, next) => {
+    const purchaseRepo = dataSource.getRepository("CreditPurchase");
+    const bookingRepo = dataSource.getRepository("CourseBooking");
+
+    const purchase = await purchaseRepo.find({
+      where: { user_id: req.user.id },
+    });
+
+    const totalCredits = purchase.reduce(
+      (sum, pur) => sum + pur.purchased_credits,
+      0,
+    );
+
+    const totalBookings = await bookingRepo.find({
+      where: { user_id: req.user.id },
+      relations: { course: { coach: { user: true } } },
+      order: { course: { start_at: "ASC" } },
+    });
+
+    const creditUsage = totalBookings.filter((b) => !b.cancelled_at).length;
+    const creditRemain = totalCredits - creditUsage;
+
+    const courseBookings = totalBookings.map((b) => ({
+      course_id: b.course_id,
+      name: b.course.name,
+      start_at: b.course.start_at,
+      end_at: b.course.end_at,
+      meeting_url: b.course.meeting_url,
+      coach_name: b.course.coach.user.name,
+      cancelled_at: b.cancelled_at,
+    }));
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        credit_remain: creditRemain,
+        credit_usage: creditUsage,
+        course_booking: courseBookings,
+      },
+    });
   },
 };
 

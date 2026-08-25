@@ -24,7 +24,7 @@ app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/admin/coaches/courses", require("./routes/adminCourseRoute"));
 app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
 
-// M4
+// M4 + M5
 app.use("/api/coaches", require("./routes/coacheRoute"));
 app.use("/api/courses", require("./routes/courseRoute"));
 

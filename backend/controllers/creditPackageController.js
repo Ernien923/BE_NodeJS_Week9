@@ -64,6 +64,34 @@ const creditPackageController = {
       next(error);
     }
   },
+
+  // 4. 購買堂數方案
+  purchase: async (req, res, next) => {
+    const { creditPackageId } = req.params;
+    // 檢驗 UUID 是否符合格式
+    if (!isUUIDValid(creditPackageId)) {
+      return next(appErr(400, "UUID不符合格式"));
+    }
+
+    const creditPackageRepo = dataSource.getRepository("CreditPackage");
+    const purchaseRepo = dataSource.getRepository("CreditPurchase");
+
+    // 查詢堂包課程是否存在
+    const package = await creditPackageRepo.findOneBy({ id: creditPackageId });
+    if (!package) {
+      return next(appErr(400, "ID錯誤"));
+    }
+
+    // 購買紀錄寫入資料表
+    await purchaseRepo.save({
+      user_id: req.user.id,
+      credit_package_id: package.id,
+      purchased_credits: package.credit_amount,
+      price_paid: package.price,
+    });
+
+    res.status(200).json({ status: "success", data: null });
+  },
 };
 
 module.exports = creditPackageController;

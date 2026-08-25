@@ -8,4 +8,7 @@ router.get("/profile", isAuth, userController.getMember);
 router.put("/profile", isAuth, userController.updateName);
 router.put("/password", isAuth, userController.updatePassword);
 
+// M5
+router.get("/credit-package", isAuth, userController.getPurchases);
+router.get("/courses", isAuth, userController.getCourses);
 module.exports = router;
