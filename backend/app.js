@@ -20,9 +20,10 @@ app.use("/api/credit-package", require("./routes/creditPackageRoute"));
 // M2
 app.use("/api/users", require("./routes/userRoute"));
 
-// M3
+// M3 + M6
 app.use("/api/admin/coaches/courses", require("./routes/adminCourseRoute"));
 app.use("/api/admin/coaches", require("./routes/adminCoachRoute"));
+app.use("/api/admin/coaches/revenue", require("./routes/adminRevenueRoute"));
 
 // M4 + M5
 app.use("/api/coaches", require("./routes/coacheRoute"));
