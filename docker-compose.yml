@@ -58,10 +58,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    env_file:
-      - ./backend/.env
     environment: # 需要哪些變數？可根據 .env.example 對照補齊
-      - DB_HOST=postgres
+      - PORT=8080
+      - DB_HOST=postgres # ← 容器內用服務名，不是 localhost
+      - DB_PORT=5432
+      - DB_USERNAME=student
+      - DB_PASSWORD=student666
+      - DB_DATABASE=fitness
+      - JWT_SECRET=hexschool2026finalproject
+      - JWT_EXPIRES_DAY=30d
+      - DB_SYNCHRONIZE=true
+      - DB_ENABLE_SSL=false
     depends_on:
       postgres:
         condition: service_healthy
